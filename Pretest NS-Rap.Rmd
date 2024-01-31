@@ -1,0 +1,54 @@
+---
+title: "NS-Rap Pretest"
+author: "Anni Gebhard"
+date: "2024-01-29"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+# lädt die Programmbibliotheken
+library(tidyverse)
+library(igraph)
+```
+
+
+```{r}
+# Einlesen der Edge- und Nodelist
+edges <- read.csv("https://raw.githubusercontent.com/annigebhard/NS-Rap/main/Pretest%20NS-Rap%20-%20Edgelist.csv", header=T, as.is=T, sep = ",")
+nodes <- read.csv("https://raw.githubusercontent.com/annigebhard/NS-Rap/main/Pretest%20NS-Rap%20-%20Nodelist.csv", header=T, as.is=T, sep = ",")
+
+# Matrix erstellen
+edgematrix <-as.matrix(edges)
+
+# Zusammenführen von Edge- und Nodelist als igraph-Objekt rb
+nsr <- graph_from_data_frame(d=edgematrix, vertices=nodes, directed=F)
+
+# Aufrufen der Netzwerks rb (rb für rechtsradikale Bands)
+nsr
+
+#Namen als ids festlegen
+
+V(nsr)$label <- nodes$id
+
+#Netzwerk anzeigen
+plot(nsr,)
+
+plot(nsr, 
+     layout = layout_with_fr(nsr),  
+     vertex.size = 5,               
+     vertex.color = "lightblue",    
+     vertex.label.cex = 0.7,         
+     vertex.label.color = "black",  
+     edge.width = 1,                 
+     edge.color = "gray",            
+     main = "Pretest NS-Rapszene"       
+)
+
+
+
+
+```
